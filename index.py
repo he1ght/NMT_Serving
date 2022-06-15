@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for
 app = Flask(__name__)
 board = []
 
+from realtime_generate import translate
 
 @app.route('/')
 def index():
@@ -51,8 +52,9 @@ def utter_translate():
     # animal_type = req["action"]["detailParams"]["Animal_type"]["value"]	# json파일 읽기
     params = req["action"]["detailParams"]
     utter = req['userRequest']['utterance']
-    print(params)
-    print(utter)
+    # print(params)
+    # print(utter)
+    translation = translate(utter)
 
     answer = utter  # animal_type
 
@@ -63,7 +65,7 @@ def utter_translate():
             "outputs": [
                 {
                     "simpleText": {
-                        "text": utter
+                        "text": translation
                     }
                 }
             ]
