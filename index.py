@@ -71,7 +71,8 @@ def delete(uid):
 def clear():
     index = 0
     board = []
-    return redirect(url_for("index"))
+    # return redirect(url_for("index"))
+    return render_template("init.html", rows=board)
 
 
 @app.route("/utter_translate", methods=['POST'])
