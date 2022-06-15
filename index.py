@@ -38,8 +38,8 @@ def generate(audio_bin):
         data = subprocess.check_output(['cat', audioPath])
         yield data
 
-@app.route('/web_speak_origin')
-def web_speak_origin():
+@app.route('/web_speak_original')
+def web_speak_original():
     context = request.form["context"]
     if not context:
         flash("문장을 입력해주세요.")
