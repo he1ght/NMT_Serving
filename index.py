@@ -69,6 +69,7 @@ def delete(uid):
 
 @app.route('/clear', methods=["POST"])
 def clear():
+    global board
     index = 0
     board = []
     # return redirect(url_for("index"))
