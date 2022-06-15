@@ -24,30 +24,37 @@
     <form action="/web_trans" method="POST">
 <!--        이름<br>-->
 <!--        <input type="text" name="name" /><br>-->
-        원문(De)<br>
+        번역하고자 하는 문장을 입력하세요.<br>
         <input type="text" name="context" style="text-align:center; width:400px; height:100px;" /><br><br>
-        <input type="submit" value="게 시" /><br>
+        <input type="submit" value="번 역" />
     </form>
-    <form action="/web_speak" method="POST">
-        번역본(En)<br>
-        <input type="text" name="result" style="text-align:center; width:400px; height:100px;" /><br><br>
-        <input type="submit" value="발 음" /><br>
+    <form action="/web_speak_original" method="POST">
+        <input type="submit" value="발 음" /><br><br>
     </form>
+
+<!--    <form action="/web_speak" method="POST">-->
+<!--        번역본(En)<br>-->
+<!--        <input type="text" name="result" contentEditable="falue" style="text-align:center; width:400px; height:100px;" /><br><br>-->
+<!--        <input type="submit" value="발 음" /><br>-->
+<!--    </form>-->
     <h4>목록보기</h4>
+    <form action="/clear" method="POST">
+        <input type="submit" value="일괄 제거" /><br>
+    </form>
     <table border=1 width="600" align="center">
         <thead>
             <td>Index</td>
             <td>원문(De)</td>
             <td>번역본(En)</td>
-<!--            <td>수정, 삭제</td>-->
+            <td>Action</td>
         </thead>
         {% for row in rows %}
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
-<!--            <td><a href="{{url_for('update', uid = loop.index)}}">수정</a> <a-->
-<!--                    href="{{url_for('delete', uid = loop.index)}}">삭제</a></td>-->
+            <td><a href="{{url_for('speak', uid = loop.index)}}">발음</a> <a
+                    href="{{url_for('delete', uid = loop.index)}}">삭제</a></td>
         </tr>
         {% endfor %}
     </table>

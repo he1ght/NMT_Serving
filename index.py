@@ -11,7 +11,7 @@ def index():
 
 
 @app.route('/web_trans', methods=["POST"])
-def add():
+def web_trans():
     if request.method == "POST":
         context = request.form["context"]
         result = translate(context)
@@ -20,22 +20,46 @@ def add():
     else:
         return render_template("init.html", rows=board)
 
-
-# 게시판 내용 갱신 (Update)
-@app.route('/update/<int:uid>', methods=["GET", "POST"])
-def update(uid):
+@app.route('/web_speak_origin', methods=["POST"])
+def web_speak_origin():
     if request.method == "POST":
-        index = uid - 1
-        name = request.form["name"]
         context = request.form["context"]
-
-        board[index] = [name, context]  # 기존의 board내용에 덮어쓰기
+        # todo speak context
         return redirect(url_for("index"))
     else:
-        return render_template("update.html", index=uid, rows=board)
+        return render_template("init.html", rows=board)
 
 
-# 게시판 내용 삭제 (Delete)
+@app.route('/web_speak', methods=["POST"])
+def web_speak():
+    if request.method == "POST":
+        result = request.form["result"]
+        # todo speak result
+        return redirect(url_for("index"))
+    else:
+        return render_template("init.html", rows=board)
+
+# @app.route('/update/<int:uid>', methods=["GET", "POST"])
+# def update(uid):
+#     if request.method == "POST":
+#         index = uid - 1
+#         name = request.form["name"]
+#         context = request.form["context"]
+#
+#         board[index] = [name, context]  # 기존의 board내용에 덮어쓰기
+#         return redirect(url_for("index"))
+#     else:
+#         return render_template("update.html", index=uid, rows=board)
+
+@app.route('/speak/<int:uid>')
+def speak(uid):
+    index = uid - 1
+    predict = board[index][1]
+    # todo speak predict
+
+    return redirect(url_for("index"))
+
+
 @app.route('/delete/<int:uid>')
 def delete(uid):
     index = uid - 1
