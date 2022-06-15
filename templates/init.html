@@ -1,0 +1,56 @@
+<!-- ./templates/init.html -->
+
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>German to English Translator</title>
+
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>독일어 - 영어 번역기</h3>
+<!--    <h4>추가</h4>-->
+    <form action="/web_trans" method="POST">
+<!--        이름<br>-->
+<!--        <input type="text" name="name" /><br>-->
+        원문(De)<br>
+        <input type="text" name="context" style="text-align:center; width:400px; height:100px;" /><br><br>
+        <input type="submit" value="게 시" /><br>
+    </form>
+    <form action="/web_speak" method="POST">
+        번역본(En)<br>
+        <input type="text" name="result" style="text-align:center; width:400px; height:100px;" /><br><br>
+        <input type="submit" value="발 음" /><br>
+    </form>
+    <h4>목록보기</h4>
+    <table border=1 width="600" align="center">
+        <thead>
+            <td>Index</td>
+            <td>원문(De)</td>
+            <td>번역본(En)</td>
+<!--            <td>수정, 삭제</td>-->
+        </thead>
+        {% for row in rows %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+<!--            <td><a href="{{url_for('update', uid = loop.index)}}">수정</a> <a-->
+<!--                    href="{{url_for('delete', uid = loop.index)}}">삭제</a></td>-->
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

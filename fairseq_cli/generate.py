@@ -386,7 +386,7 @@ board = []
 
 @app.route('/')
 def index():
-    return render_template('list.html', rows=board)
+    return render_template('init.html', rows=board)
 
 
 # 게시판 내용 추가 (Create)
@@ -398,7 +398,7 @@ def add():
         board.append([name, context])
         return redirect(url_for("index"))
     else:
-        return render_template("list.html", rows=board)
+        return render_template("init.html", rows=board)
 
 
 # 게시판 내용 갱신 (Update)

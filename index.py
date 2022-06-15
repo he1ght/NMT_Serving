@@ -7,19 +7,18 @@ from realtime_generate import translate
 
 @app.route('/')
 def index():
-    return render_template('list.html', rows=board)
+    return render_template('init.html', rows=board)
 
 
-# 게시판 내용 추가 (Create)
-@app.route('/add', methods=["POST"])
+@app.route('/web_trans', methods=["POST"])
 def add():
     if request.method == "POST":
-        name = request.form["name"]
         context = request.form["context"]
-        board.append([name, context])
+        result = translate(context)
+        board.append([context, result])
         return redirect(url_for("index"))
     else:
-        return render_template("list.html", rows=board)
+        return render_template("init.html", rows=board)
 
 
 # 게시판 내용 갱신 (Update)
@@ -42,6 +41,12 @@ def delete(uid):
     index = uid - 1
     del board[index]
 
+    return redirect(url_for("index"))
+
+@app.route('/clear')
+def clear():
+    index = 0
+    board = []
     return redirect(url_for("index"))
 
 
