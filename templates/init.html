@@ -26,9 +26,9 @@
 <!--        <input type="text" name="name" /><br>-->
         번역하고자 하는 문장을 입력하세요.<br>
         <input type="text" name="context" style="text-align:center; width:400px; height:100px;" /><br><br>
-        <input type="submit" value="번 역" />
+        <input type="submit" value="번 역" /><br>
     </form>
-    <form action="/web_speak_original" method="POST">
+    <form action="/web_speak_original" method="GET">
         <input type="submit" value="발 음" /><br><br>
     </form>
 
@@ -41,12 +41,13 @@
     <form action="/clear" method="POST">
         <input type="submit" value="일괄 제거" /><br>
     </form>
+    <br>
     <table border=1 width="600" align="center">
         <thead>
             <td>Index</td>
-            <td>원문(De)</td>
-            <td>번역본(En)</td>
-            <td>Action</td>
+            <td>-                   원문(De)                   -</td>
+            <td>-                   번역본(En)                  -</td>
+            <td>-  Action  -</td>
         </thead>
         {% for row in rows %}
         <tr>
