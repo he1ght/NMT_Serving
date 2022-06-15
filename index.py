@@ -1,6 +1,6 @@
 import subprocess
 
-from flask import Flask, request, jsonify, render_template, redirect, url_for, Response
+from flask import Flask, request, jsonify, render_template, redirect, url_for, Response, flash
 
 from tts import synthesize_text_file
 
@@ -18,9 +18,12 @@ def index():
 def web_trans():
     if request.method == "POST":
         context = request.form["context"]
-        result = translate(context)
-        board.append([context, result])
-        return redirect(url_for("index"))
+        if not context:
+            flash("문장을 입력해주세요.")
+        else:
+            result = translate(context)
+            board.append([context, result])
+            return redirect(url_for("index"))
     else:
         return render_template("init.html", rows=board)
 
@@ -38,10 +41,13 @@ def generate(audio_bin):
 @app.route('/web_speak_origin')
 def web_speak_origin():
     context = request.form["context"]
-    audio_bin = synthesize_text_file(context)
+    if not context:
+        flash("문장을 입력해주세요.")
+    else:
+        audio_bin = synthesize_text_file(context)
 
-    # return Response(generate(audio_bin), mimetype='audio/mp3')
-    return Response(audio_bin, mimetype='audio/mp3')
+        # return Response(generate(audio_bin), mimetype='audio/mp3')
+        return Response(audio_bin, mimetype='audio/mp3')
 
 
 # @app.route('/web_speak', methods=["POST"])
