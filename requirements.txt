@@ -1,0 +1,7 @@
+torch
+numpy
+flask
+google-cloud-storage
+google-cloud-texttospeech
+transformers
+hydra-core==1.0.3

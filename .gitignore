@@ -133,3 +133,4 @@ dmypy.json
 secret*
 kakao_code.json
 *.pt
+*.json

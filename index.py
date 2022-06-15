@@ -1,4 +1,8 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+import subprocess
+
+from flask import Flask, request, jsonify, render_template, redirect, url_for, Response
+
+from tts import synthesize_text_file
 
 app = Flask(__name__)
 board = []
@@ -20,24 +24,33 @@ def web_trans():
     else:
         return render_template("init.html", rows=board)
 
-@app.route('/web_speak_origin', methods=["POST"])
+def generate(audio_bin):
+
+    #  get_list_all_files_name this function gives all internal files inside the folder
+
+    filesAudios = audio_bin # get_list_all_files_name(currentDir + "/streamingAudios/1")
+
+    # audioPath is audio file path in system
+    for audioPath in filesAudios:
+        data = subprocess.check_output(['cat', audioPath])
+        yield data
+
+@app.route('/web_speak_origin')
 def web_speak_origin():
-    if request.method == "POST":
-        context = request.form["context"]
-        # todo speak context
-        return redirect(url_for("index"))
-    else:
-        return render_template("init.html", rows=board)
+    context = request.form["context"]
+    audio_bin = synthesize_text_file(context)
+
+    # return Response(generate(audio_bin), mimetype='audio/mp3')
+    return Response(audio_bin, mimetype='audio/mp3')
 
 
-@app.route('/web_speak', methods=["POST"])
-def web_speak():
-    if request.method == "POST":
-        result = request.form["result"]
-        # todo speak result
-        return redirect(url_for("index"))
-    else:
-        return render_template("init.html", rows=board)
+# @app.route('/web_speak', methods=["POST"])
+# def web_speak():
+#     if request.method == "POST":
+#         result = request.form["result"]
+#         return redirect(url_for("index"))
+#     else:
+#         return render_template("init.html", rows=board)
 
 # @app.route('/update/<int:uid>', methods=["GET", "POST"])
 # def update(uid):
@@ -54,10 +67,11 @@ def web_speak():
 @app.route('/speak/<int:uid>')
 def speak(uid):
     index = uid - 1
-    predict = board[index][1]
-    # todo speak predict
+    context = board[index][1]
+    audio_bin = synthesize_text_file(context)
 
-    return redirect(url_for("index"))
+    # return Response(generate(audio_bin), mimetype='audio/mp3')
+    return Response(audio_bin, mimetype='audio/mp3')
 
 
 @app.route('/delete/<int:uid>')
@@ -74,6 +88,7 @@ def clear():
     board = []
     # return redirect(url_for("index"))
     return render_template("init.html", rows=board)
+
 
 
 @app.route("/utter_translate", methods=['POST'])
